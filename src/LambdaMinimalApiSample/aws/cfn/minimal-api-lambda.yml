@@ -1,0 +1,113 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Lambda with Url Function Exposed with Cloudfront
+
+Parameters:
+  Application:
+    Type: String
+  Environment:
+    Type: String
+    AllowedValues:
+      - dev
+      - stage
+      - prod
+  LambdaName:
+    Type: String
+  LambdaHandler:
+    Type: String
+  LambdaBucketName:
+    Type: String
+  LambdaZipFile:
+    Type: String
+
+Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: '/'
+      Policies:
+        - PolicyName: logs
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource:
+                  - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${AWS::StackName}:*"
+            
+  LambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub ${Application}-${Environment}-${LambdaName}-lambda
+      Code:
+        S3Bucket: !Sub ${LambdaBucketName}
+        S3Key: !Sub ${LambdaZipFile}
+      Handler: !Sub ${LambdaHandler}
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Architectures:
+        - arm64
+      Runtime: dotnet6
+      Timeout: 60
+      MemorySize: 512
+  
+  LambdaLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${AWS::StackName}"
+      RetentionInDays: 30
+  
+  LambdaUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      AuthType: NONE
+      TargetFunctionArn: !GetAtt LambdaFunction.Arn
+      
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        PriceClass: PriceClass_All
+        HttpVersion: http2
+        IPV6Enabled: true
+        Comment: !Sub ${AWS::StackName}-Distribution with Lambda Function URL
+        Origins:
+          - DomainName: !Select [0, !Split ["/",  !Select [1, !Split ["//", !GetAtt LambdaUrl.FunctionUrl]] ]] 
+            Id: LambdaOrigin
+            CustomOriginConfig:
+              HTTPSPort: 443
+              OriginProtocolPolicy: https-only
+        Enabled: 'true'
+        DefaultCacheBehavior:
+          TargetOriginId: LambdaOrigin
+          CachePolicyId: '4135ea2d-6df8-44a3-9df3-4b5a84be39ad'
+          ViewerProtocolPolicy: redirect-to-https
+          SmoothStreaming: 'false'
+          Compress: 'true'
+          
+  
+  LambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunctionUrl
+      Principal: '*'
+      FunctionUrlAuthType: NONE
+      FunctionName: !GetAtt LambdaFunction.Arn
+
+Outputs:
+  LambdaFunctionUrl:
+    Description: Lambda function Url
+    Value: !GetAtt CloudFrontDistribution.DomainName
+    Export:
+      Name: !Sub ${AWS::StackName}-LambdaFunctionUrl
+  
+  
+  

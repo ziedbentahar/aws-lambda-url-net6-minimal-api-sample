@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Lambda Bucket
+
+Parameters:
+  LambdaBucketName:
+    Type: String
+
+Resources:
+  LambdaBucket:
+    Type: AWS::S3::Bucket
+    Properties: 
+      AccessControl: Private
+      BucketName: !Ref LambdaBucketName
