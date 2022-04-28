@@ -35,9 +35,9 @@ jobs:
     - name: Zip artifact
       run: |
         zip -jr lambdaminimalapisample.zip  ./LambdaMinimalApiSample/bin/Release/net6.0/publish
-        ls
       
-    - uses: actions/upload-artifact@v2
+      
+    - uses: actions/upload-artifact@v3
       with:
         name: lambdaminimalapisample
-        path: lambdaminimalapisample.zip
+        path: ./lambdaminimalapisample.zip
