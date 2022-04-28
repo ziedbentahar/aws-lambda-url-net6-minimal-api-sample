@@ -67,9 +67,9 @@ jobs:
 
     - name: Create or update lambda bucket
       run: |
-        aws cloudformation deploy --template-file ./aws/cfn/lambda-bucket.yml --stack-name lambda-bucket --parameter-overrides LambdaBucketName=lambda-bucket
+        aws cloudformation deploy --template-file ./aws/cfn/lambda-bucket.yml --stack-name lambda-bucket --parameter-overrides LambdaBucketName=minimal-api-lambda-sample-bucket
         
     - name: Upload to S3
       run: |
-        aws s3 cp lambdaminimalapisample.zip s3://lambda-bucket
+        aws s3 cp lambdaminimalapisample.zip s3://minimal-api-lambda-sample-bucket
         
