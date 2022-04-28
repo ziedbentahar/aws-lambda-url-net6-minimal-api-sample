@@ -1,0 +1,1 @@
+# aws-lambda-url-net6-minimal-api-sample
