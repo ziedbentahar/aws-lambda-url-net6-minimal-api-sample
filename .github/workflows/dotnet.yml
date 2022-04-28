@@ -36,8 +36,11 @@ jobs:
       run: |
         zip -jr lambdaminimalapisample.zip  ./LambdaMinimalApiSample/bin/Release/net6.0/publish
       
-      
+
     - uses: actions/upload-artifact@v3
+      run: |
+        pwd
+        ls
       with:
         name: lambdaminimalapisample
         path: ./lambdaminimalapisample.zip
