@@ -47,7 +47,7 @@ Resources:
   LambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: !Sub ${Application}-${Environment}-${LambdaName}-lambda
+      FunctionName: !Sub ${Application}-${Environment}-${LambdaName}
       Code:
         S3Bucket: !Sub ${LambdaBucketName}
         S3Key: !Sub ${LambdaZipFile}

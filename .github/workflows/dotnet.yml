@@ -52,12 +52,7 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: lambdaminimalapisample
-        
-    - name: cmd
-      run: |
-        ls
-    
-        
+   
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -72,4 +67,28 @@ jobs:
     - name: Upload to S3
       run: |
         aws s3 cp lambdaminimalapisample.zip s3://minimal-api-lambda-sample-bucket
+
+  deploy-to-dev:
+    needs: [publish-to-s3]
+    
+    runs-on: ubuntu-latest
+    
+    steps:
         
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-1
+
+    - name: Deploy lambda
+      run: |
+        aws cloudformation deploy --template-file ./aws/cfn/minimal-api-lambda.yml --stack-name minimal-api-lambda-sample --parameter-overrides \
+            Application=minimal-api-sample \
+            Environment=dev \
+            LambdaName=lambda \
+            LambdaHandler=LambdaMinimalApiSample \
+            LambdaBucketName=minimal-api-lambda-sample-bucket \
+            LambdaZipFile=lambdaminimalapisample.zip
+           
