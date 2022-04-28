@@ -90,5 +90,6 @@ jobs:
             LambdaName=lambda \
             LambdaHandler=LambdaMinimalApiSample \
             LambdaBucketName=minimal-api-lambda-sample-bucket \
-            LambdaZipFile=lambdaminimalapisample.zip
+            LambdaZipFile=lambdaminimalapisample.zip \
+            --capabilities CAPABILITY_IAM
            
