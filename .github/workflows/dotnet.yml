@@ -52,6 +52,11 @@ jobs:
       with:
         name: lambdaminimalapisample
         
+    - name: cmd
+      run: |
+        ls
+    
+        
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
