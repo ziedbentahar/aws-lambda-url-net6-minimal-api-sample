@@ -63,8 +63,12 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-west-1
+
+    - name: Create or update lambda bucket
+      run: |
+        aws cloudformation deploy --template-file ./aws/cfn/lambda-bucket.yml --stack-name lambda-bucket --parameter-overrides LambdaBucketName=lambda-bucket
         
     - name: Upload to S3
       run: |
-        aws s3 cp lambdaminimalapisample.zip s3://application-lambda-bucket
+        aws s3 cp lambdaminimalapisample.zip s3://lambda-bucket
         
