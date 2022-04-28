@@ -66,5 +66,5 @@ jobs:
         
     - name: Upload to S3
       run: |
-        aws s3 sync lambdaminimalapisample.zip s3://application-lambda-bucket
+        aws s3 cp lambdaminimalapisample.zip s3://application-lambda-bucket
         
