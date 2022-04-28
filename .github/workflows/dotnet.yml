@@ -33,7 +33,9 @@ jobs:
       run: dotnet publish -c Release
       
     - name: Zip artifact
-      run: zip -jr lambdaminimalapisample.zip  ./LambdaMinimalApiSample/bin/Release/net6.0/publish
+      run: |
+        zip -jr lambdaminimalapisample.zip  ./LambdaMinimalApiSample/bin/Release/net6.0/publish
+        ls
       
     - uses: actions/upload-artifact@v2
       with:
