@@ -7,7 +7,6 @@ on:
       - "aws/cfn/hosted-zone.yml"
   
 jobs:
- 
   deploy-hosted-zone:
     needs: [publish-to-s3]
     
@@ -21,7 +20,6 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-west-1
-
     - name: Configure hosted zone
       run: |
         aws cloudformation deploy --template-file ./aws/cfn/hosted-zone.yml --stack-name hosted-zone --parameter-overrides \
