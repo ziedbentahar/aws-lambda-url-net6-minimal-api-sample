@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - "aws/cfn/hosted-zone.yml"
+      - ".github/workflows/hosted-zone.yml"
   
 jobs:
   deploy-hosted-zone:
