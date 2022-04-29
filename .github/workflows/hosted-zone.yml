@@ -23,6 +23,6 @@ jobs:
     - name: Configure hosted zone
       run: |
         aws cloudformation deploy --template-file ./aws/cfn/hosted-zone.yml --stack-name hosted-zone --parameter-overrides \
-            DomainNam=inflow-it-labs.tk \
+            DomainName=inflow-it-labs.tk \
             --capabilities CAPABILITY_IAM
            
