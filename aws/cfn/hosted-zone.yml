@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Hosted Zone
+
+Parameters: 
+  DomainName:
+    Type: String;
+
+Resources:
+  HostedZone:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      Name: !Ref DomainName
+
+Outputs:
+  HostedZoneId:
+    Description: Hosted zone Id
+    Value: !Ref HostedZone
+    Export:
+      Name: !Sub ${AWS::StackName}-HostedZoneId
+
+  HostedNameServers:
+    Description: Hosted name servers
+    Value: !Join
+      - ','
+      - !GetAtt HostedZone.NameServers
+    Export:
+      Name: !Sub ${AWS::StackName}-HostedZoneNameServers
+
+
