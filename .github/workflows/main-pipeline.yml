@@ -15,7 +15,6 @@ jobs:
       run:
         working-directory: ./src/LambdaMinimalApiSample
  
-
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -33,7 +32,7 @@ jobs:
       
     - name: Zip artifact
       run: |
-        zip -jr lambdaminimalapisample-${GITHUB_SHA::7}.zip  ./LambdaMinimalApiSample/bin/Release/net6.0/publish
+        zip -jr lambdaminimalapisample-${GITHUB_SHA::7}.zip  ./LambdaMinimalApiSample/bin/Release/net6.0/publish/*
   
     - uses: actions/upload-artifact@v3
       with:
