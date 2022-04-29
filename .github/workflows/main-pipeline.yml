@@ -86,10 +86,11 @@ ensure-certificate:
     - name: Deploy certificate
       run: |
         aws cloudformation deploy --template-file ./aws/cfn/certificate.yml \
+        --region us-east-1 \
         --stack-name minimal-api-certificate \
         --parameter-overrides DomainName=minimal.inflow-it-labs.tk \
         HostedZoneId=Z0464138316PGDCQAU55H
-   
+
 
   deploy-to-dev:
     needs: [publish-to-s3, ensure-certificate]
