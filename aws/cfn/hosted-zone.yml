@@ -3,7 +3,7 @@ Description: Hosted Zone
 
 Parameters: 
   DomainName:
-    Type: String;
+    Type: String
 
 Resources:
   HostedZone:
