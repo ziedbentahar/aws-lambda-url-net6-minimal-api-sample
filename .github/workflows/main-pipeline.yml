@@ -68,7 +68,7 @@ jobs:
       run: |
         aws s3 cp lambdaminimalapisample-${{ github.sha }}.zip s3://minimal-api-lambda-sample-bucket
 
-ensure-certificate:
+  ensure-certificate:
     needs: [build-and-publish]
     
     runs-on: ubuntu-latest
