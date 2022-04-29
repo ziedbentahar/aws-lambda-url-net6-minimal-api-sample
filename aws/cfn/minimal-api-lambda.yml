@@ -70,7 +70,15 @@ Resources:
     Properties:
       AuthType: NONE
       TargetFunctionArn: !GetAtt LambdaFunction.Arn
-      
+  
+  LambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunctionUrl
+      Principal: '*'
+      FunctionUrlAuthType: NONE
+      FunctionName: !GetAtt LambdaFunction.Arn
+
   CloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
     Properties:
@@ -92,15 +100,6 @@ Resources:
           ViewerProtocolPolicy: redirect-to-https
           SmoothStreaming: 'false'
           Compress: 'true'
-          
-  
-  LambdaPermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:InvokeFunctionUrl
-      Principal: '*'
-      FunctionUrlAuthType: NONE
-      FunctionName: !GetAtt LambdaFunction.Arn
 
 Outputs:
   LambdaFunctionUrl:
