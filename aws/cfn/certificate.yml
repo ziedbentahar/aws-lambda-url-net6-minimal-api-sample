@@ -13,7 +13,6 @@ Resources:
       DomainName: !Ref DomainName
       SubjectAlternativeNames:
         - !Ref DomainName
-        - !Sub www.${DomainName}
       DomainValidationOptions:
         - DomainName: !Ref DomainName
           HostedZoneId: !Ref HostedZoneId
