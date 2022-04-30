@@ -18,6 +18,10 @@ Parameters:
     Type: String
   LambdaZipFile:
     Type: String
+  CertificateArn:
+    Type: String
+  DomainName:
+    Type: String
 
 Resources:
   LambdaExecutionRole:
@@ -83,6 +87,11 @@ Resources:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
+        Aliases:
+          - !Ref DomainName
+        ViewerCertificate:
+          AcmCertificateArn: !Ref CertificateArn
+          SslSupportMethod: sni-only
         PriceClass: PriceClass_All
         HttpVersion: http2
         IPV6Enabled: true

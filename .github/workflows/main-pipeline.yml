@@ -126,5 +126,7 @@ jobs:
             LambdaHandler=LambdaMinimalApiSample \
             LambdaBucketName=minimal-api-lambda-sample-bucket \
             LambdaZipFile=lambdaminimalapisample-${{ github.sha }}.zip \
+            CertificateArn={{ env.CERTIFIFCATE_ARN }} \
+            DomainName=minimal.inflow-it-labs.tk \
             --capabilities CAPABILITY_IAM
            
