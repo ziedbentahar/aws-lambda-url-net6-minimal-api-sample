@@ -109,11 +109,13 @@ jobs:
 
     - name: Get Certificate Arn
       run: |
-        aws ssm get-parameter \
+        echo"CERTIFIFCATE_ARN=aws ssm get-parameter \
           --region us-east-1 \
           --name "/minimal-api-sample/certificate-arn" \
           --query "Parameter.Value" \
-          --output text
+          --output text" >> $GITHUB_ENV
+    - name: Test ouptut
+      run: echo ${{ env.CERTIFIFCATE_ARN }}
 
     - name: Deploy lambda
       run: |
