@@ -99,7 +99,7 @@ jobs:
         --stack-name minimal-api-certificate \
         --parameter-overrides \ 
         DomainName=${{ env.DOMAIN_NAME }} \
-        SSMParameterName=/${{ env.APPLICATION_NAME }}/certificate-arn \
+        SSMParameterName="/${{ env.APPLICATION_NAME }}/certificate-arn" \
         HostedZoneId=${{ env.HOSTED_ZONE_ID }}
 
 
