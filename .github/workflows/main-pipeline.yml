@@ -97,8 +97,7 @@ jobs:
         aws cloudformation deploy --template-file ./aws/cfn/certificate.yml \
         --region us-east-1 \
         --stack-name minimal-api-certificate \
-        --parameter-overrides \ 
-        DomainName=${{ env.DOMAIN_NAME }} \
+        --parameter-overrides DomainName=${{ env.DOMAIN_NAME }} \
         SSMParameterName="/${{ env.APPLICATION_NAME }}/certificate-arn" \
         HostedZoneId=${{ env.HOSTED_ZONE_ID }}
 
