@@ -22,6 +22,8 @@ Parameters:
     Type: String
   DomainName:
     Type: String
+  HostedZoneId:
+    Type: String
 
 Resources:
   LambdaExecutionRole:
@@ -109,6 +111,23 @@ Resources:
           ViewerProtocolPolicy: redirect-to-https
           SmoothStreaming: 'false'
           Compress: 'true'
+
+  RecordSetGroup:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      RecordSets:
+        - Name: DomainName
+          Type: A
+          AliasTarget:
+            HostedZoneId: Z2FDTNDATAQYW2
+            DNSName: !GetAtt CloudFrontDistribution.DomainName
+        - Name: DomainName
+          Type: AAAA
+          AliasTarget:
+            HostedZoneId: Z2FDTNDATAQYW2
+            DNSName: !GetAtt CloudFrontDistribution.DomainName
+
 
 Outputs:
   LambdaFunctionUrl:
