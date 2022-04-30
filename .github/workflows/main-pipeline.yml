@@ -109,7 +109,7 @@ jobs:
 
     - name: Get Certificate Arn
       run: |
-        echo"CERTIFIFCATE_ARN=$(aws ssm get-parameter \
+        echo "CERTIFIFCATE_ARN=$(aws ssm get-parameter \
           --region us-east-1 \
           --name "/minimal-api-sample/certificate-arn" \
           --query "Parameter.Value" \
