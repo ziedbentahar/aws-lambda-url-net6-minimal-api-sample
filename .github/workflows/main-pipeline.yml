@@ -5,7 +5,7 @@ on:
     branches: [ main ]
     paths-ignore: 
       - "aws/cfn/hosted-zone.yml"
-      - ".github/workflows/main-pipeline.yml"
+      - ".github/workflows/hosted-zone.yml"
       
   pull_request:
     branches: [ main ]
