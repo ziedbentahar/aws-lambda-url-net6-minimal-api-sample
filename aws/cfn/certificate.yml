@@ -1,6 +1,8 @@
 AWSTemplateFormatVersion: '2010-09-09'
 
 Parameters:
+  Application:
+    Type: String
   DomainName:
     Type: String
   HostedZoneId:
@@ -17,6 +19,15 @@ Resources:
         - DomainName: !Ref DomainName
           HostedZoneId: !Ref HostedZoneId
       ValidationMethod: DNS
+
+
+  CertificateArnParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub ${Application}/certificate-arn
+      Description: !Sub ${Application} certificate Arn
+      Type: String
+      Value: !Ref Certificate 
 
 Outputs:
   CertificateArn:
