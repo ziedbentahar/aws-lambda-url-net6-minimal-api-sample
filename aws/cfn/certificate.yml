@@ -24,7 +24,7 @@ Resources:
   CertificateArnParameter:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Sub ${Application}/certificate-arn
+      Name: !Sub /${Application}/certificate-arn
       Description: !Sub ${Application} certificate Arn
       Type: String
       Value: !Ref Certificate 
