@@ -111,7 +111,7 @@ jobs:
       run: |
         aws ssm get-parameter \
           --region us-east-1 \
-          --name "minimal-api-sample/certificate-arn" \
+          --name "/minimal-api-sample/certificate-arn" \
           --query "Parameter.Value" \
           --output text
 
