@@ -1,6 +1,8 @@
 AWSTemplateFormatVersion: '2010-09-09'
 
 Parameters:
+  Application:
+    Type: String
   SSMParameterName:
     Type: String
   DomainName:
