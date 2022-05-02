@@ -15,17 +15,15 @@ env:
   APPLICATION_NAME: minimal-api-sample
   LAMBDA_BUCKET_NAME: minimal-api-lambda-sample-bucket
   DOMAIN_NAME: minimal.inflow-it-labs.tk
-  HOSTED_ZONE_ID: Z0464138316PGDCQAU55H
-  
+  SLN_WORKING_DIR: ./src/LambdaMinimalApiSample
 
 jobs:
-  build-and-publish:
-   
+  build:
     runs-on: ubuntu-latest
     
     defaults:
       run:
-        working-directory: ./src/LambdaMinimalApiSample
+        working-directory: ${{env.SLN_WORKING_DIR }}
  
     steps:
     - uses: actions/checkout@v3
@@ -46,10 +44,11 @@ jobs:
       run: |
         zip -jr ${{ env.APPLICATION_PACKAGE }}-${{ github.sha }}.zip  ./LambdaMinimalApiSample/bin/Release/net6.0/publish/*
   
-    - uses: actions/upload-artifact@v3
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ env.APPLICATION_PACKAGE }}
-        path: ./src/LambdaMinimalApiSample/${{ env.APPLICATION_PACKAGE }}-${{ github.sha }}.zip
+        path: ${{ env.SLN_WORKING_DIR }}/${{ env.APPLICATION_PACKAGE }}-${{ github.sha }}.zip
         
   publish-to-s3:
     needs: [build-and-publish]
@@ -77,14 +76,13 @@ jobs:
       run: |
         aws s3 cp ${{ env.APPLICATION_PACKAGE }}-${{ github.sha }}.zip s3://${{ env.LAMBDA_BUCKET_NAME}}
 
-  configure-certificate:
-    needs: [build-and-publish]
+  deploy:
+    needs: [publish-to-s3]
     
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
-   
+    - uses: actions/checkout@v3 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -100,22 +98,7 @@ jobs:
         --parameter-overrides DomainName=${{ env.DOMAIN_NAME }} \
         SSMParameterName="/${{ env.APPLICATION_NAME }}/certificate-arn" \
         Application=${{ env.APPLICATION_NAME }}
-        HostedZoneId=${{ env.HOSTED_ZONE_ID }}
-
-
-  deploy:
-    needs: [publish-to-s3, configure-certificate]
-    
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v3 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-west-1
+        HostedZoneId=${{ secrets.HOSTED_ZONE_ID }}
 
     - name: Get Certificate Arn
       run: |
