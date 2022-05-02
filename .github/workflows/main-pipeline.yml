@@ -50,8 +50,8 @@ jobs:
         name: ${{ env.APPLICATION_PACKAGE }}
         path: ${{ env.SLN_WORKING_DIR }}/${{ env.APPLICATION_PACKAGE }}-${{ github.sha }}.zip
         
-  publish-to-s3:
-    needs: [build-and-publish]
+  upload-to-s3:
+    needs: [build]
     
     runs-on: ubuntu-latest
     
