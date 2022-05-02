@@ -50,7 +50,7 @@ jobs:
         name: ${{ env.APPLICATION_PACKAGE }}
         path: ${{ env.SLN_WORKING_DIR }}/${{ env.APPLICATION_PACKAGE }}-${{ github.sha }}.zip
         
-  upload-to-s3:
+  upload-artifact-to-s3:
     needs: [build]
     
     runs-on: ubuntu-latest
@@ -77,7 +77,7 @@ jobs:
         aws s3 cp ${{ env.APPLICATION_PACKAGE }}-${{ github.sha }}.zip s3://${{ env.LAMBDA_BUCKET_NAME}}
 
   deploy:
-    needs: [publish-to-s3]
+    needs: [upload-artifact-to-s3]
     
     runs-on: ubuntu-latest
     
