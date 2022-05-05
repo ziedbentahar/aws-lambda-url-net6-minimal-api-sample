@@ -1,3 +1,6 @@
+![Build & Deploy status](https://github.com/ziedbentahar/aws-lambda-url-net6-minimal-api-sample/actions/workflows/main-pipeline/badge.svg)
+
+
 # aws-lambda-url-net6-minimal-api-sample
 
 Full code and Github actions workflow for this bog post:
