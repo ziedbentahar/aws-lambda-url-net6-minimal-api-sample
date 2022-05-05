@@ -1,6 +1,6 @@
 # aws-lambda-url-net6-minimal-api-sample
 
-Code and Github actions workflow for blog sumbission:
+Full code and Github actions workflow for this bog post:
 
 https://medium.com/@zied-ben-tahar/aws-lambda-function-urls-with-net-6-minimal-api-727b6d2087a5 
 
